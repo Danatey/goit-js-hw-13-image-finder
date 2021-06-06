@@ -1,0 +1,35 @@
+{
+  "name": "goit-js-hw-10-food-service",
+  "version": "1.1.0",
+  "description": "",
+  "main": "index.js",
+  "homepage": "https://danatey.github.io/goit-js-hw-13-image-finder",
+  "scripts": {
+    "dev": "parcel src/*.html",
+    "build": "parcel build src/*.html --public-url /goit-js-hw-13-image-finder/",
+    "deploy": "node --version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Danatey/goit-js-hw-13-image-finder"
+  },
+  "keywords": [],
+  "author": "Danil Prokhorchuk <danatey40793@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Danatey/goit-js-hw-13-image-finder"
+  },
+  "devDependencies": {
+    "gh-pages": "^3.1.0",
+    "parcel-bundler": "^1.12.5",
+    "parcel-plugin-handlebars-precompile": "^1.0.2",
+    "posthtml-include": "^1.6.2",
+    "sass": "^1.32.8"
+  },
+  "dependencies": {
+    "basiclightbox": "^5.0.4",
+    "handlebar": "^1.0.0",
+    "lodash.debounce": "^4.0.8",
+    "parcel-plugin-handlebars": "^0.4.4"
+  }
+}
