@@ -1,74 +1,36 @@
-//Import CSS
+import 'regenerator-runtime/runtime'
 import './sass/main.scss';
-//Import JS
-import ImagesApiService from './js/add-card';
-import getEl from './js/elements';
-import setLightbox from './js/lightbox';
-//Import Templates
-import cardTemplate from './template/image-list';
+import query from './js/apiService.js'
+import cardTemplates from './template/image-list.hbs'
 
-const elements = getEl();
+const refs = {
+  cardContainer: document.querySelector('.container')
+}
+const searchElem = document.querySelector('input');
+const loadMoreBtn = document.querySelector('.button-load');
 
-const observer = new IntersectionObserver(intersectionHandler);
+function fetchQuery () {
+    const search = searchElem.value.trim();
+    const promise = query(search);
+    const q = promise.then(picture => draw(picture))
+}
 
-const imagesApiService = new ImagesApiService();
-elements.searchForm.addEventListener('submit', onSearch);
-elements.gallery.addEventListener('click', setLightbox);
+let markup;
 
-function onSearch(event) {
-  event.preventDefault();
-
-  clearGallery();
-  elements.loader.classList.remove('hide-loader');
-
-  const inputValue = event.currentTarget.elements.query.value;
-
-  const str = new RegExp('[a-zA-Z]');
-
-  if (!str.test(inputValue) || inputValue === '') {
-    hideLoader();
-    return onError();
+function draw(picture) {
+  markup = cardTemplates(picture.hits);
+  refs.cardContainer.insertAdjacentHTML('beforeend', markup);
+  
+  if (picture.total > 12) {
+    loadMoreBtn.classList.remove('hidden')
   }
+} 
 
-  imagesApiService.query = inputValue;
+const showBtn = document.querySelector('.button-submit')
+showBtn.addEventListener('click', fetchQuery)
 
-  imagesApiService.resetPage();
 
-  imagesApiService.fetchImages().then(renderImgs).catch(onFetchError);
-}
-
-function renderImgs(images) {
-  if (images.length === 0) {
-    hideLoader();
-    return onError();
-  }
-
-  const markup = cardTemplate(images);
-  elements.gallery.insertAdjacentHTML('beforeend', markup);
-  observer.observe(elements.observerItem);
-}
-
-function clearGallery() {
-  elements.gallery.innerHTML = '';
-
-  observer.unobserve(elements.observerItem);
-}
-
-function renderMore() {
-  imagesApiService
-    .fetchImages()
-    .then(renderImgs)
-    .then(hideLoader)
-    .catch(onFetchError);
-}
-
-function intersectionHandler(entries) {
-  const { isIntersecting } = entries[0];
-  if (isIntersecting) {
-    renderMore();
-  }
-}
-
-function hideLoader() {
-  refs.loader.classList.add('hide-loader');
-}
+// refs.cardContainer.scrollIntoView({
+//   behavior: 'smooth',
+//   block: 'end',
+// });

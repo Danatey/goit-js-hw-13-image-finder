@@ -20,6 +20,7 @@
     "url": "https://github.com/Danatey/goit-js-hw-13-image-finder"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.14.3",
     "gh-pages": "^3.1.0",
     "parcel-bundler": "^1.12.5",
     "parcel-plugin-handlebars-precompile": "^1.0.2",
@@ -29,7 +30,9 @@
   "dependencies": {
     "basiclightbox": "^5.0.4",
     "handlebar": "^1.0.0",
+    "handlebars": "^4.7.7",
     "lodash.debounce": "^4.0.8",
+    "notyf": "^3.9.0",
     "parcel-plugin-handlebars": "^0.4.4"
   }
 }

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Search your countries</title>
+    <title>Search your images</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.min.css"
@@ -15,12 +15,16 @@
   <body>
     <!-- Так добавляются фрагменты в главные HTML-файлы страниц. -->
     <div class="container">
-      <form class="search-form" id="search-form">
-        <label for="query">Please, enter the name image</label>
-        <input type="text" name="query" autocomplete="off" placeholder="Search images..." />
-        <button type="submit" class="form-search"></button>
-      </form>
-      <ul class="gallery gallery-js"></ul>
+      <h1 class="hero-phrase">Please, enter picture title</h1>
+      <div class="search-container">
+        <form class="search-form" id="search-form">
+          <input class="input-container" type="text" name="query" autocomplete="off" placeholder="Search images..." />
+        </form>
+        <button class="button-submit">Показать</button>
+      </div>
+    </div>
+    <div class="search-container">
+      <button class="button-load hidden">Load more</button>
     </div>
     <!-- Скрипт идёт последним в разметке. В нём уже подключен главный SASS-файл. -->
     <script src="./index.js"></script>
