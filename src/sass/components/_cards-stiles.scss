@@ -13,9 +13,6 @@
   overflow: hidden;
   transition: 1s;
 }
-.gallery-item:nth-last-child(-n + 4) {
-  margin-bottom: 0px;
-}
 
 .gallery-item:nth-child(4n) {
   margin-right: 0px;
@@ -26,7 +23,7 @@
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
     1px 4px 6px rgba(0, 0, 0, 0.16);
   transform: scale(1.05);
-  z-index: 100;
+  z-index: 1;
 }
 
 .photo-card {

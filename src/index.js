@@ -1,36 +1,42 @@
 import 'regenerator-runtime/runtime'
 import './sass/main.scss';
-import query from './js/apiService.js'
+import getAPI from './js/apiService.js'
 import cardTemplates from './template/image-list.hbs'
 
 const refs = {
-  cardContainer: document.querySelector('.container')
-}
-const searchElem = document.querySelector('input');
-const loadMoreBtn = document.querySelector('.button-load');
-
-function fetchQuery () {
-    const search = searchElem.value.trim();
-    const promise = query(search);
-    const q = promise.then(picture => draw(picture))
+  cardContainer: document.querySelector('.observer-container'),
+  searchElem: document.querySelector('input'),
+  loadMoreBtn: document.querySelector('.button-load'),
+  showBtn: document.querySelector('.button-submit'),
 }
 
-let markup;
+let currPage = 1;
 
-function draw(picture) {
-  markup = cardTemplates(picture.hits);
-  refs.cardContainer.insertAdjacentHTML('beforeend', markup);
+function fetchAPI () {
+    const searchValue = refs.searchElem.value.trim();
+    const thisAPI = getAPI(searchValue, currPage);
+  thisAPI.then(image => addCards(image));
+}
+
+function addCards(image) {
+  refs.cardContainer.insertAdjacentHTML('beforeend', cardTemplates(image.hits));
   
-  if (picture.total > 12) {
-    loadMoreBtn.classList.remove('hidden')
+  if (image.total > 12) {
+    refs.loadMoreBtn.classList.remove('is-hidden')
   }
 } 
 
-const showBtn = document.querySelector('.button-submit')
-showBtn.addEventListener('click', fetchQuery)
+async function loadMore() {
+  ++currPage;
+  fetchAPI();
+  setTimeout(() => {seeBtn()}, 500);
+}
+function seeBtn() {
+  refs.loadMoreBtn.scrollIntoView({
+    behavior: 'smooth',
+    block: 'end',
+  });
+}
 
-
-// refs.cardContainer.scrollIntoView({
-//   behavior: 'smooth',
-//   block: 'end',
-// });
+refs.showBtn.addEventListener('click', fetchAPI)
+refs.loadMoreBtn.addEventListener('click', loadMore)
