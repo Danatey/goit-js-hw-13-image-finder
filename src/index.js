@@ -11,32 +11,40 @@ const refs = {
 }
 
 let currPage = 1;
+const searchValue = refs.searchElem.value;
 
-function fetchAPI () {
-    const searchValue = refs.searchElem.value.trim();
-    const thisAPI = getAPI(searchValue, currPage);
+function fetchAPI() {
+  if (refs.searchElem.value !== localStorage.getItem('value')) {
+    refs.cardContainer.innerHTML = '';
+  };
+  if (refs.searchElem.value < 1) {
+    refs.loadMoreBtn.classList.add('is-hidden');
+    return
+  };
+  localStorage.setItem('value', refs.searchElem.value);
+  const thisAPI = getAPI(searchValue.trim(), currPage);
   thisAPI.then(image => addCards(image));
 }
 
 function addCards(image) {
   refs.cardContainer.insertAdjacentHTML('beforeend', cardTemplates(image.hits));
-  
   if (image.total > 12) {
     refs.loadMoreBtn.classList.remove('is-hidden')
   }
 } 
 
-async function loadMore() {
+function loadMore() {
   ++currPage;
   fetchAPI();
   setTimeout(() => {seeBtn()}, 500);
 }
+
 function seeBtn() {
   refs.loadMoreBtn.scrollIntoView({
     behavior: 'smooth',
     block: 'end',
   });
 }
-
-refs.showBtn.addEventListener('click', fetchAPI)
-refs.loadMoreBtn.addEventListener('click', loadMore)
+  
+refs.showBtn.addEventListener('click', fetchAPI);
+refs.loadMoreBtn.addEventListener('click', loadMore);
